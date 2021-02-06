@@ -7,8 +7,6 @@ import org.springframework.context.annotation.Import;
 @Configuration
 @ComponentScan(basePackages = {
 		"kr.or.connect.reservation.dao",
-		"kr.or.connect.reservation.controller",
-		"kr.or.connect.reservation.dto",
 		"kr.or.connect.reservation.service"
 		})
 @Import({DBConfig.class})

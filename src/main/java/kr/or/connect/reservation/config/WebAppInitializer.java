@@ -5,21 +5,20 @@ import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatche
 public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
 
 	@Override
-	protected Class<?>[] getRootConfigClasses() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    protected Class<?>[] getRootConfigClasses() {
+        return new Class<?>[]{ApplicationConfig.class};
+    }
 
-	@Override
-	protected Class<?>[] getServletConfigClasses() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    // Spring MVC 설정 파일 클래스를 지정합니다.
+    @Override
+    protected Class<?>[] getServletConfigClasses() {
+        return new Class<?>[]{MvcConfig.class};
+    }
 
-	@Override
-	protected String[] getServletMappings() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    // DispatcherServlet이 동작할 맵핑정보를 설정합니다. "/"를 설정한다는 것은 모든 요청을 DispatcherServlet이 처리한다는 것을 의미합니다.
+    @Override
+    protected String[] getServletMappings() {
+        return new String[]{"/"};
+    }
 
 }
