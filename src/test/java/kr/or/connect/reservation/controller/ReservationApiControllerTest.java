@@ -20,7 +20,6 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import kr.or.connect.reservation.config.ApplicationConfig;
 import kr.or.connect.reservation.config.MvcConfig;
-import kr.or.connect.reservation.service.CategoryService;
 import kr.or.connect.reservation.service.ReservationService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -29,9 +28,6 @@ import kr.or.connect.reservation.service.ReservationService;
 public class ReservationApiControllerTest {
 	@InjectMocks
 	public ReservationApiController reservationApiController;
-
-	@Mock
-	CategoryService categoryService;
 
 	@Mock
 	ReservationService reservationService;

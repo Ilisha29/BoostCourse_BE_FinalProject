@@ -2,6 +2,7 @@ package kr.or.connect.reservation.dao;
 
 import static kr.or.connect.reservation.dao.ReservationDaoSqls.*;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,6 +14,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import kr.or.connect.reservation.dto.Category;
 import kr.or.connect.reservation.dto.ProductWithDisplayInfoAndCategory;
 import kr.or.connect.reservation.dto.PromotionWithCategoryAndProductAndProductImage;
 
@@ -22,6 +24,17 @@ public class ReservationDao {
 	
 	public ReservationDao(DataSource dataSource) {
 		this.jdbc = new NamedParameterJdbcTemplate(dataSource);
+	}
+	
+	public List<Category> selectCategory(){
+		RowMapper<Category> rowMapper = BeanPropertyRowMapper.newInstance(Category.class);
+		return jdbc.query(SELECT_ALL_CATEGORY, Collections.emptyMap(), rowMapper);
+	}
+	
+	public Integer countCategoryItems(int categoryId) {
+		Map<String, Integer> params = new HashMap<>();
+		params.put("categoryId", categoryId);
+		return jdbc.queryForObject(COUNT_CATEGORY_ITEM, params, Integer.class);
 	}
 
 	public List<ProductWithDisplayInfoAndCategory> selectDisplayInfo(int categoryId, int start) {

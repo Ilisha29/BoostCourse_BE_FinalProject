@@ -14,18 +14,15 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import kr.or.connect.reservation.dto.ProductWithDisplayInfoAndCategory;
 import kr.or.connect.reservation.dto.PromotionWithCategoryAndProductAndProductImage;
-import kr.or.connect.reservation.service.CategoryService;
 import kr.or.connect.reservation.service.ReservationService;
 
 @RestController
 @RequestMapping(path = "/api")
 public class ReservationApiController {
 
-	private CategoryService categoryService;
 	private ReservationService reservationService;
 
-	public ReservationApiController(CategoryService categoryService, ReservationService reservationService) {
-		this.categoryService = categoryService;
+	public ReservationApiController(ReservationService reservationService) {
 		this.reservationService = reservationService;
 	}
 
@@ -36,15 +33,15 @@ public class ReservationApiController {
 	@GetMapping(path = "/categories")
 	public Map<String, Object> getCategories() {
 		Map<String, Object> map = new HashMap<>();
-		map.put("size", categoryService.list().size());
-		map.put("items", categoryService.list());
+		map.put("size", reservationService.getCategories().size());
+		map.put("items", reservationService.getCategories());
 		return map;
 	}
 
 	@ApiOperation(value = "상품 목록 구하기 확인")
-	@ApiResponses({ @ApiResponse(code = 200, message ="Success GET DisplyaInfo"),
+	@ApiResponses({ @ApiResponse(code = 200, message = "Success GET DisplyaInfo"),
 			@ApiResponse(code = 500, message = "Exception!!~~!!") })
-	
+
 	@GetMapping(path = "/displayinfos")
 	public Map<String, Object> getDisplayInfos(
 			@RequestParam(name = "categoryId", required = false, defaultValue = "0") int categoryId,
@@ -56,12 +53,13 @@ public class ReservationApiController {
 		map.put("products", list);
 		return map;
 	}
+
 	@ApiOperation(value = "프로모 확인")
-	@ApiResponses({ @ApiResponse(code = 200, message ="Success GET Promotions"),
+	@ApiResponses({ @ApiResponse(code = 200, message = "Success GET Promotions"),
 			@ApiResponse(code = 500, message = "Exception!!~~!!") })
-	
+
 	@GetMapping(path = "/promotions")
-	public Map<String, Object> getPromotions(){
+	public Map<String, Object> getPromotions() {
 		Map<String, Object> map = new HashMap<>();
 		List<PromotionWithCategoryAndProductAndProductImage> promotions = reservationService.getPromotions();
 		map.put("size", promotions.size());
