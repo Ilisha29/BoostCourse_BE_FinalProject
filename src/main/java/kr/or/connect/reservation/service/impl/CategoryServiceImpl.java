@@ -9,7 +9,7 @@ import kr.or.connect.reservation.dao.CategoryDao;
 import kr.or.connect.reservation.dao.DisplayInfoDao;
 import kr.or.connect.reservation.dao.ProductDao;
 import kr.or.connect.reservation.dto.Category;
-import kr.or.connect.reservation.dto.Product;
+import kr.or.connect.reservation.dto.ProductWithDisplayInfoAndCategory;
 import kr.or.connect.reservation.service.CategoryService;
 
 @Service
@@ -30,11 +30,11 @@ public class CategoryServiceImpl implements CategoryService {
 	public List<Category> list() {
 		List<Category> list = categoryDao.selectAll();
 		for (Category category : list) {
-			List<Product> products = productDao.selectByCategoryId(category.getId());
+			List<ProductWithDisplayInfoAndCategory> products = productDao.selectByCategoryId(category.getId());
 			int count = 0;
-			for (Product product : products) {
+			for (ProductWithDisplayInfoAndCategory product : products) {
 				count += displayInfoDao.selectByProductId(product.getId()).size();
-			}
+			} 
 			category.setCount(count);
 		}
 		return list;

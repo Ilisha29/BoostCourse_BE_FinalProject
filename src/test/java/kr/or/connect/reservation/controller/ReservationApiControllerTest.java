@@ -21,7 +21,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import kr.or.connect.reservation.config.ApplicationConfig;
 import kr.or.connect.reservation.config.MvcConfig;
 import kr.or.connect.reservation.service.CategoryService;
-import kr.or.connect.reservation.service.ProductService;
+import kr.or.connect.reservation.service.ReservationService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
@@ -30,11 +30,11 @@ public class ReservationApiControllerTest {
 	@InjectMocks
 	public ReservationApiController reservationApiController;
 
-	@Mock //this의 대
+	@Mock
 	CategoryService categoryService;
 
 	@Mock
-	ProductService productService;
+	ReservationService reservationService;
 	
 	private MockMvc mockMvc;
 

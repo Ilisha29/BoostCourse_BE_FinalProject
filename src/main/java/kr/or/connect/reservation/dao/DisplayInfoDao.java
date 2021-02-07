@@ -17,7 +17,7 @@ import org.springframework.stereotype.Repository;
 
 import kr.or.connect.reservation.dto.Category;
 import kr.or.connect.reservation.dto.DisplayInfo;
-import kr.or.connect.reservation.dto.Product;
+import kr.or.connect.reservation.dto.ProductWithDisplayInfoAndCategory;
 import static kr.or.connect.reservation.dao.DisplayInfoDaoSqls.SELECT_BY_PRODUCT_ID;
 
 @Repository
