@@ -11,6 +11,7 @@ import static kr.or.connect.reservation.dao.ReservationDaoSqls.SELECT_DISPLAY_IN
 import static kr.or.connect.reservation.dao.ReservationDaoSqls.SELECT_PRODUCT_ID_BY_DISPLAY_ID;
 import static kr.or.connect.reservation.dao.ReservationDaoSqls.SELECT_PRODUCT_IMAGES_WHTH_FILE_INFO;
 import static kr.or.connect.reservation.dao.ReservationDaoSqls.SELECT_PRODUCT_PRICE_BY_PRODUCT_ID;
+import static kr.or.connect.reservation.dao.ReservationDaoSqls.SELECT_RESERVATION_USER_COMMENTS_BY_PRODUCT_ID;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -30,20 +31,21 @@ import kr.or.connect.reservation.dto.ProductImageWithFileInfo;
 import kr.or.connect.reservation.dto.ProductPrice;
 import kr.or.connect.reservation.dto.ProductWithDisplayInfoAndCategory;
 import kr.or.connect.reservation.dto.PromotionWithCategoryAndProductAndProductImage;
+import kr.or.connect.reservation.dto.ReservationUserComment;
 
 @Repository
 public class ReservationDao {
 	private NamedParameterJdbcTemplate jdbc;
-	
+
 	public ReservationDao(DataSource dataSource) {
 		this.jdbc = new NamedParameterJdbcTemplate(dataSource);
 	}
-	
-	public List<Category> selectCategory(){
+
+	public List<Category> selectCategory() {
 		RowMapper<Category> rowMapper = BeanPropertyRowMapper.newInstance(Category.class);
 		return jdbc.query(SELECT_ALL_CATEGORY, Collections.emptyMap(), rowMapper);
 	}
-	
+
 	public Integer countCategoryItems(int categoryId) {
 		Map<String, Integer> params = new HashMap<>();
 		params.put("categoryId", categoryId);
@@ -51,58 +53,70 @@ public class ReservationDao {
 	}
 
 	public List<ProductWithDisplayInfoAndCategory> selectDisplayInfos(int categoryId, int start) {
-		RowMapper<ProductWithDisplayInfoAndCategory> rowMapper = BeanPropertyRowMapper.newInstance(ProductWithDisplayInfoAndCategory.class);
+		RowMapper<ProductWithDisplayInfoAndCategory> rowMapper = BeanPropertyRowMapper
+				.newInstance(ProductWithDisplayInfoAndCategory.class);
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("start", start);
 		if (categoryId != 0) {
 			params.put("category_id", categoryId);
 			return jdbc.query(SELECT_DISPLAY_INFO_BY_CATEGORY_ID, params, rowMapper);
-		} 
+		}
 		return jdbc.query(SELECT_ALL_DISPLAY_INFO, params, rowMapper);
 	}
 
 	public List<PromotionWithCategoryAndProductAndProductImage> getPromotionWithCategoryAndProductAndProductImage() {
-		RowMapper<PromotionWithCategoryAndProductAndProductImage> rowMapper = BeanPropertyRowMapper.newInstance(PromotionWithCategoryAndProductAndProductImage.class);
+		RowMapper<PromotionWithCategoryAndProductAndProductImage> rowMapper = BeanPropertyRowMapper
+				.newInstance(PromotionWithCategoryAndProductAndProductImage.class);
 		return jdbc.query(SELECT_ALL_PROMOTION, new HashMap<String, Object>(), rowMapper);
 	}
-	
+
 	public ProductWithDisplayInfoAndCategory selectDisplayInfo(int display_id) {
-		RowMapper<ProductWithDisplayInfoAndCategory> rowMapper = BeanPropertyRowMapper.newInstance(ProductWithDisplayInfoAndCategory.class);
+		RowMapper<ProductWithDisplayInfoAndCategory> rowMapper = BeanPropertyRowMapper
+				.newInstance(ProductWithDisplayInfoAndCategory.class);
 		Map<String, Integer> params = new HashMap<>();
 		params.put("display_id", display_id);
 		return jdbc.queryForObject(SELECT_DISPLAY_INFO_BY_DISPLAY_ID, params, rowMapper);
 	}
-	
+
 	public int getProductIdByDisplayID(int displayId) {
 		Map<String, Integer> params = new HashMap<>();
 		params.put("display_id", displayId);
 		return jdbc.queryForObject(SELECT_PRODUCT_ID_BY_DISPLAY_ID, params, Integer.class);
 	}
-	
-	public List<ProductImageWithFileInfo> getProductImageWithFileInfos(int productId){
-		RowMapper<ProductImageWithFileInfo> rowMapper = BeanPropertyRowMapper.newInstance(ProductImageWithFileInfo.class);
+
+	public List<ProductImageWithFileInfo> getProductImageWithFileInfos(int productId) {
+		RowMapper<ProductImageWithFileInfo> rowMapper = BeanPropertyRowMapper
+				.newInstance(ProductImageWithFileInfo.class);
 		Map<String, Integer> params = new HashMap<>();
 		params.put("product_id", productId);
 		return jdbc.query(SELECT_PRODUCT_IMAGES_WHTH_FILE_INFO, params, rowMapper);
 	}
-	
-	public List<DisplayInfoImageWithFileInfo> getDisplayInfoImages(int displayId){
-		RowMapper<DisplayInfoImageWithFileInfo> rowMapper = BeanPropertyRowMapper.newInstance(DisplayInfoImageWithFileInfo.class);
+
+	public List<DisplayInfoImageWithFileInfo> getDisplayInfoImages(int displayId) {
+		RowMapper<DisplayInfoImageWithFileInfo> rowMapper = BeanPropertyRowMapper
+				.newInstance(DisplayInfoImageWithFileInfo.class);
 		Map<String, Integer> params = new HashMap<>();
 		params.put("display_id", displayId);
 		return jdbc.query(SELECT_DISPLAY_INFO_IMAGES, params, rowMapper);
 	}
-	
+
 	public float getProductAvgScore(int productId) {
 		Map<String, Integer> params = new HashMap<>();
 		params.put("product_id", productId);
 		return jdbc.queryForObject(SELECT_DISPLAY_AVG_SCORE, params, Float.class);
 	}
-	
-	public List<ProductPrice> getProductPrices(int productId){
+
+	public List<ProductPrice> getProductPrices(int productId) {
 		RowMapper<ProductPrice> rowMapper = BeanPropertyRowMapper.newInstance(ProductPrice.class);
 		Map<String, Integer> params = new HashMap<>();
 		params.put("product_id", productId);
 		return jdbc.query(SELECT_PRODUCT_PRICE_BY_PRODUCT_ID, params, rowMapper);
+	}
+
+	public List<ReservationUserComment> getComments(int productId) {
+		RowMapper<ReservationUserComment> rowMapper = BeanPropertyRowMapper.newInstance(ReservationUserComment.class);
+		Map<String, Integer> params = new HashMap<>();
+		params.put("product_id", productId);
+		return jdbc.query(SELECT_RESERVATION_USER_COMMENTS_BY_PRODUCT_ID, params, rowMapper);
 	}
 }

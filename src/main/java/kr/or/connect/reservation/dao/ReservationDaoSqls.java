@@ -76,4 +76,10 @@ public class ReservationDaoSqls {
 			+ "pp.create_date createDate, pp.modify_date modifyDate "
 			+ "FROM product_price pp WHERE product_id = :product_id;";
 	
+	public static final String SELECT_RESERVATION_USER_COMMENTS_BY_PRODUCT_ID=
+			"SELECT ruc.id id, ruc.product_id productId, ruc.reservation_info_id reservationInfoId, "
+			+ "ruc.score score, ruc.comment comment, "
+			+ "ruc.create_date createDate, ruc.modify_date modifyDate "
+			+ "FROM reservation_user_comment ruc "
+			+ "WHERE ruc.product_id = :product_id";
 }

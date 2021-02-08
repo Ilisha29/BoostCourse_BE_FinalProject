@@ -1,5 +1,6 @@
 package kr.or.connect.reservation.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -12,16 +13,18 @@ import kr.or.connect.reservation.dto.ProductImageWithFileInfo;
 import kr.or.connect.reservation.dto.ProductPrice;
 import kr.or.connect.reservation.dto.ProductWithDisplayInfoAndCategory;
 import kr.or.connect.reservation.dto.PromotionWithCategoryAndProductAndProductImage;
+import kr.or.connect.reservation.dto.ReservationUserComment;
 import kr.or.connect.reservation.service.ReservationService;
 
 @Service
 public class ReservationServiceImpl implements ReservationService {
+	private static final int LIMIT = 5;
 	ReservationDao reservationDao;
 
 	public ReservationServiceImpl(ReservationDao reservationDao) {
 		this.reservationDao = reservationDao;
 	}
-	
+
 	@Override
 	@Transactional(readOnly = true)
 	public List<Category> getCategories() {
@@ -71,7 +74,7 @@ public class ReservationServiceImpl implements ReservationService {
 	@Transactional(readOnly = true)
 	public int getProductAvgScore(int displayId) {
 		int productId = reservationDao.getProductIdByDisplayID(displayId);
-		return (int)reservationDao.getProductAvgScore(productId);
+		return (int) reservationDao.getProductAvgScore(productId);
 	}
 
 	@Override
@@ -79,5 +82,25 @@ public class ReservationServiceImpl implements ReservationService {
 	public List<ProductPrice> getProductPrices(int displayId) {
 		int productId = reservationDao.getProductIdByDisplayID(displayId);
 		return reservationDao.getProductPrices(productId);
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<ReservationUserComment> getComments(int productId) {
+		return reservationDao.getComments(productId);
+	}
+
+	@Override
+	public List<ReservationUserComment> getCommentsApplyStart(List<ReservationUserComment> reservationUserComments,
+			int start) {
+		int count = 0;
+		List<ReservationUserComment> appliedStartList = new ArrayList<>();
+		for (int i = start; i < reservationUserComments.size(); i++) {
+			if (count == LIMIT)
+				break;
+			appliedStartList.add(reservationUserComments.get(i));
+			count++;
+		}
+		return appliedStartList;
 	}
 }

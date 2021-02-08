@@ -15,6 +15,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import kr.or.connect.reservation.dto.ProductWithDisplayInfoAndCategory;
 import kr.or.connect.reservation.dto.PromotionWithCategoryAndProductAndProductImage;
+import kr.or.connect.reservation.dto.ReservationUserComment;
 import kr.or.connect.reservation.service.ReservationService;
 
 @RestController
@@ -67,19 +68,36 @@ public class ReservationApiController {
 		map.put("items", promotions);
 		return map;
 	}
-	
+
 	@ApiOperation(value = "상품정보 확인")
 	@ApiResponses({ @ApiResponse(code = 200, message = "Success GET ProductInfo"),
 			@ApiResponse(code = 500, message = "Product Info Exception!!~~!!") })
 
 	@GetMapping(path = "/displayinfos/{displayId}")
-	public Map<String, Object> getProductInfo(@PathVariable(name="displayId") int displayId) {
+	public Map<String, Object> getProductInfo(@PathVariable(name = "displayId") int displayId) {
 		Map<String, Object> map = new HashMap<>();
 		map.put("product", reservationService.getProduct(displayId));
-		map.put("productImages",reservationService.getProductImages(displayId));
+		map.put("productImages", reservationService.getProductImages(displayId));
 		map.put("displayInfoImages", reservationService.getDisplayInfoImages(displayId));
 		map.put("avgScore", reservationService.getProductAvgScore(displayId));
 		map.put("productPrices", reservationService.getProductPrices(displayId));
+		return map;
+	}
+
+	@ApiOperation(value = "댓글 목록 확인")
+	@ApiResponses({ @ApiResponse(code = 200, message = "Success GET Replies"),
+			@ApiResponse(code = 500, message = "Product Info Exception!!~~!!") })
+
+	@GetMapping(path = "/comments")
+	public Map<String, Object> getComments(
+			@RequestParam(name = "productId", required = false, defaultValue = "0") int productId,
+			@RequestParam(name = "start", required = false, defaultValue = "0") int start) {
+		Map<String, Object> map = new HashMap<>();
+		List<ReservationUserComment> reservationUserComments = reservationService.getComments(productId);
+		map.put("totalCount", reservationUserComments.size());
+		List<ReservationUserComment> applyStartReservationUserComments = reservationService.getCommentsApplyStart(reservationUserComments, start);
+		map.put("commentCount", applyStartReservationUserComments.size());
+		map.put("reservaionUserComments", applyStartReservationUserComments);
 		return map;
 	}
 }
