@@ -7,6 +7,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import kr.or.connect.reservation.dao.ReservationDao;
 import kr.or.connect.reservation.dto.Category;
+import kr.or.connect.reservation.dto.DisplayInfoImageWithFileInfo;
+import kr.or.connect.reservation.dto.ProductImageWithFileInfo;
+import kr.or.connect.reservation.dto.ProductPrice;
 import kr.or.connect.reservation.dto.ProductWithDisplayInfoAndCategory;
 import kr.or.connect.reservation.dto.PromotionWithCategoryAndProductAndProductImage;
 import kr.or.connect.reservation.service.ReservationService;
@@ -20,7 +23,7 @@ public class ReservationServiceImpl implements ReservationService {
 	}
 	
 	@Override
-	@Transactional
+	@Transactional(readOnly = true)
 	public List<Category> getCategories() {
 		List<Category> list = reservationDao.selectCategory();
 		for (Category category : list) {
@@ -30,9 +33,9 @@ public class ReservationServiceImpl implements ReservationService {
 	}
 
 	@Override
-	@Transactional
+	@Transactional(readOnly = true)
 	public List<ProductWithDisplayInfoAndCategory> getProducts(int categoryId, int start) {
-		List<ProductWithDisplayInfoAndCategory> list = reservationDao.selectDisplayInfo(categoryId, start);
+		List<ProductWithDisplayInfoAndCategory> list = reservationDao.selectDisplayInfos(categoryId, start);
 		for (ProductWithDisplayInfoAndCategory product : list) {
 			System.out.println(product);
 		}
@@ -40,9 +43,41 @@ public class ReservationServiceImpl implements ReservationService {
 	}
 
 	@Override
-	@Transactional
+	@Transactional(readOnly = true)
 	public List<PromotionWithCategoryAndProductAndProductImage> getPromotions() {
 		return reservationDao.getPromotionWithCategoryAndProductAndProductImage();
 	}
-	
+
+	@Override
+	@Transactional(readOnly = true)
+	public ProductWithDisplayInfoAndCategory getProduct(int displayId) {
+		return reservationDao.selectDisplayInfo(displayId);
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<ProductImageWithFileInfo> getProductImages(int displayId) {
+		int productId = reservationDao.getProductIdByDisplayID(displayId);
+		return reservationDao.getProductImageWithFileInfos(productId);
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<DisplayInfoImageWithFileInfo> getDisplayInfoImages(int displayId) {
+		return reservationDao.getDisplayInfoImages(displayId);
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public int getProductAvgScore(int displayId) {
+		int productId = reservationDao.getProductIdByDisplayID(displayId);
+		return (int)reservationDao.getProductAvgScore(productId);
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<ProductPrice> getProductPrices(int displayId) {
+		int productId = reservationDao.getProductIdByDisplayID(displayId);
+		return reservationDao.getProductPrices(productId);
+	}
 }

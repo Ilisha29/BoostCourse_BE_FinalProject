@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -64,6 +65,21 @@ public class ReservationApiController {
 		List<PromotionWithCategoryAndProductAndProductImage> promotions = reservationService.getPromotions();
 		map.put("size", promotions.size());
 		map.put("items", promotions);
+		return map;
+	}
+	
+	@ApiOperation(value = "상품정보 확인")
+	@ApiResponses({ @ApiResponse(code = 200, message = "Success GET ProductInfo"),
+			@ApiResponse(code = 500, message = "Product Info Exception!!~~!!") })
+
+	@GetMapping(path = "/displayinfos/{displayId}")
+	public Map<String, Object> getProductInfo(@PathVariable(name="displayId") int displayId) {
+		Map<String, Object> map = new HashMap<>();
+		map.put("product", reservationService.getProduct(displayId));
+		map.put("productImages",reservationService.getProductImages(displayId));
+		map.put("displayInfoImages", reservationService.getDisplayInfoImages(displayId));
+		map.put("avgScore", reservationService.getProductAvgScore(displayId));
+		map.put("productPrices", reservationService.getProductPrices(displayId));
 		return map;
 	}
 }

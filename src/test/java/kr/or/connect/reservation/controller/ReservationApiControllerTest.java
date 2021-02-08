@@ -57,4 +57,11 @@ public class ReservationApiControllerTest {
 		RequestBuilder reqBuilder = MockMvcRequestBuilders.get("/api/promotions").contentType(MediaType.APPLICATION_JSON);
 		mockMvc.perform(reqBuilder).andExpect(status().isOk()).andDo(print());
 	}
+	
+	@Test
+	public void getProductInfo() throws Exception {
+		int displayId = 1;
+		RequestBuilder reqBuilder = MockMvcRequestBuilders.get("/api/displayinfos/"+displayId).contentType(MediaType.APPLICATION_JSON);
+		mockMvc.perform(reqBuilder).andExpect(status().isOk()).andDo(print());
+	}
 }

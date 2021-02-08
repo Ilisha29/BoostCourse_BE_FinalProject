@@ -3,7 +3,7 @@ package kr.or.connect.reservation.dto;
 import java.util.Date;
 
 public class ProductWithDisplayInfoAndCategory {
-	private int id; //products
+	private int id;
 	private int categoryId;
 	private int displayInfoId; 
 	private String name;
@@ -19,7 +19,7 @@ public class ProductWithDisplayInfoAndCategory {
 	private String email;
 	private Date createDate;
 	private Date modifyDate;
-	private int	fileId; //product_image
+	private int	fileId;
 	public int getId() {
 		return id;
 	}
