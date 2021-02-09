@@ -9,7 +9,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import kr.or.connect.reservation.config.ApplicationConfig;
 import kr.or.connect.reservation.config.SecurityConfig;
-
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {ApplicationConfig.class, SecurityConfig.class})
 public class PasswordEncoderTest {

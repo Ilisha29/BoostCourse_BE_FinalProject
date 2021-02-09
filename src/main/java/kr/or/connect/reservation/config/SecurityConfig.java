@@ -11,7 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import kr.or.connect.reservation.service.security.CustomUserDetailsService;
+import kr.or.connect.reservation.service.impl.CustomUserDetailsService;
 
 @Configuration
 @EnableWebSecurity
@@ -36,16 +36,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/", "/main", "/memembers/loginerror", "/members/joinform", "/members/join", "/members/welcome").permitAll()
-                .antMatchers("/securepage", "/members/**").hasRole("USER")
+                .antMatchers("/", "/main", "/users/loginerror", "/users/joinform", "/users/join", "/users/welcome").permitAll()
+                .antMatchers("/securepage", "/users/**").hasRole("USER")
                 .anyRequest().authenticated()
                 .and()
                     .formLogin()
-                    .loginPage("/members/loginform")
+                    .loginPage("/users/loginform")
                     .usernameParameter("userId")
                     .passwordParameter("password")
                     .loginProcessingUrl("/authenticate")
-                    .failureForwardUrl("/members/loginerror?login_error=1")
+                    .failureForwardUrl("/users/loginerror?login_error=1")
                     .defaultSuccessUrl("/",true)
                     .permitAll()
                 .and()
