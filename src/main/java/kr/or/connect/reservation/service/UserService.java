@@ -1,5 +1,9 @@
 package kr.or.connect.reservation.service;
 
-public interface UserService extends UserDbService {
+import kr.or.connect.reservation.dto.User;
 
+public interface UserService extends UserDbService {
+	void addUser(User user);
+
+	void addUserRole(String email);
 }

@@ -26,4 +26,16 @@ public class UserDao {
 		map.put("email", email);
 		return jdbc.queryForObject(UserDaoSqls.SELECT_ALL_BY_EMAIL, map, rowMapper);
 	}
+
+	public void addUser(User user) {
+		Map<String, Object> map = new HashMap<>();
+		map.put("name", user.getName());
+		map.put("password", user.getPassword());
+		map.put("email", user.getEmail());
+		map.put("phone", user.getPhone());
+		map.put("create_date", user.getCreateDate());
+		map.put("modify_date", user.getModifyDate());
+		jdbc.update(UserDaoSqls.INSERT_USER, map);
+	}
+	
 }

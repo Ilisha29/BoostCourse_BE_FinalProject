@@ -31,4 +31,11 @@ public class UserRoleDao {
 		map.put("email", email);
 		return jdbc.query(UserRoleDaoSqls.SELECT_ALL_BY_EMAIL, map, rowMapper);
 	}
+
+	public void addUserRole(int userId) {
+		Map<String, Object> map = new HashMap<>();
+		map.put("user_id", userId);
+		map.put("role_name", "ROLE_USER");
+		jdbc.update(UserRoleDaoSqls.INSERT_USER_ROLE, map);
+	}
 }
