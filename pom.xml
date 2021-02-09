@@ -99,6 +99,13 @@
 			<version>2.1.1</version>
 		</dependency>
 
+		<!--vSpring <-> DB 관련 -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-orm</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+
 		<!-- Swagger2관련 -->
 		<dependency>
 			<groupId>io.springfox</groupId>

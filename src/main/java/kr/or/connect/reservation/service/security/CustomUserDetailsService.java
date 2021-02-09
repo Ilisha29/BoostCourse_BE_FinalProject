@@ -11,6 +11,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import kr.or.connect.reservation.service.UserDbService;
+
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
 	@Autowired
