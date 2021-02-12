@@ -6,6 +6,8 @@ import java.util.Map;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,6 +17,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import kr.or.connect.reservation.dto.ProductWithDisplayInfoAndCategory;
 import kr.or.connect.reservation.dto.PromotionWithCategoryAndProductAndProductImage;
+import kr.or.connect.reservation.dto.ReservationRegistration;
 import kr.or.connect.reservation.dto.ReservationUserComment;
 import kr.or.connect.reservation.service.ReservationService;
 
@@ -95,9 +98,21 @@ public class ReservationApiController {
 		Map<String, Object> map = new HashMap<>();
 		List<ReservationUserComment> reservationUserComments = reservationService.getComments(productId);
 		map.put("totalCount", reservationUserComments.size());
-		List<ReservationUserComment> applyStartReservationUserComments = reservationService.getCommentsApplyStart(reservationUserComments, start);
+		List<ReservationUserComment> applyStartReservationUserComments = reservationService
+				.getCommentsApplyStart(reservationUserComments, start);
 		map.put("commentCount", applyStartReservationUserComments.size());
 		map.put("reservaionUserComments", applyStartReservationUserComments);
+		return map;
+	}
+
+	@ApiOperation(value = "예약 등록하기")
+	@ApiResponses({ @ApiResponse(code = 200, message = "Success Create Reservation"),
+			@ApiResponse(code = 500, message = "Reservation POST Exception!!~~!!") })
+
+	@PostMapping(path = "/reservationInfos")
+	public Map<String, Object> postReservation(@RequestBody ReservationRegistration request) {
+		Map<String, Object> map = new HashMap<>();
+		System.out.println(request.toString());
 		return map;
 	}
 }
