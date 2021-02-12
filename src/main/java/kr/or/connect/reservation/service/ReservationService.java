@@ -1,6 +1,7 @@
 package kr.or.connect.reservation.service;
 
 import java.util.List;
+import java.util.Map;
 
 import kr.or.connect.reservation.dto.Category;
 import kr.or.connect.reservation.dto.DisplayInfoImageWithFileInfo;
@@ -8,6 +9,7 @@ import kr.or.connect.reservation.dto.ProductImageWithFileInfo;
 import kr.or.connect.reservation.dto.ProductPrice;
 import kr.or.connect.reservation.dto.ProductWithDisplayInfoAndCategory;
 import kr.or.connect.reservation.dto.PromotionWithCategoryAndProductAndProductImage;
+import kr.or.connect.reservation.dto.ReservationRegistration;
 import kr.or.connect.reservation.dto.ReservationUserComment;
 
 public interface ReservationService {
@@ -21,4 +23,6 @@ public interface ReservationService {
 	public List<ProductPrice> getProductPrices(int display_id);
 	public List<ReservationUserComment> getComments(int categoryId);
 	public List<ReservationUserComment> getCommentsApplyStart(List<ReservationUserComment> reservationUserComments, int start);
+	public Map<String, Object> postReservation(ReservationRegistration reservationRegistration);
+	
 }

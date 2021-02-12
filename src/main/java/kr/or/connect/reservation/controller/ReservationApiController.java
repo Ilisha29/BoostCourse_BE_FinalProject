@@ -111,8 +111,6 @@ public class ReservationApiController {
 
 	@PostMapping(path = "/reservationInfos")
 	public Map<String, Object> postReservation(@RequestBody ReservationRegistration request) {
-		Map<String, Object> map = new HashMap<>();
-		System.out.println(request.toString());
-		return map;
+		return reservationService.postReservation(request);
 	}
 }

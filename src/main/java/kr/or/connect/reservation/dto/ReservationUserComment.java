@@ -11,7 +11,6 @@ public class ReservationUserComment {
 	private String comment;
 	private Date createDate;
 	private Date modifyDate;
-	//private ReservationUserCommentImage reservationUserCommentImage;
 	public int getId() {
 		return id;
 	}

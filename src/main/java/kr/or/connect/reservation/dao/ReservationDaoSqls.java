@@ -82,4 +82,29 @@ public class ReservationDaoSqls {
 			+ "ruc.create_date createDate, ruc.modify_date modifyDate "
 			+ "FROM reservation_user_comment ruc "
 			+ "WHERE ruc.product_id = :product_id";
+	
+	public static final String INSERT_RESERVATION_INFO=
+			"INSERT INTO reservation_info(product_id, display_info_id, user_id, reservation_date, create_date, modify_date) "
+			+ "VALUES (:product_id, :display_info_id, :user_id, :reservation_date, now(), now());";
+	
+	public static final String SELECT_RESERVATION_INFO_ID_BY_USER_ID_WITH_RESERVATION_DATE=
+			"SELECT id "
+			+ "FROM reservation_info "
+			+ "WHERE user_id = :user_id "
+			+ "AND reservation_date = :reservation_date;";
+	
+	public static final String INSERT_RESERVATION_INFO_PRICE=
+			"INSERT INTO reservation_info_price(reservation_info_id, product_price_id, count) "
+			+ "VALUES(:reservation_info_id, :product_price_id, :count);";
+	
+	public static final String SELECT_RESERVATION_INFO_BY_ID=
+			"SELECT ri.id id, ri.product_id productId, ri.display_info_id displayInfoId , ri.user_id userId, "
+			+ "ri.reservation_date reservationDate, ri.cancel_flag cancelFlag, ri.create_date createDate, ri.modify_date modifyDate "
+			+ "FROM reservation_info ri "
+			+ "WHERE id = :id;";
+	
+	public static final String SELECT_RESERVATION_INFO_PRICE_BY_ID=
+			"SELECT rip.id id, rip.reservation_info_id reservationInfoId, rip.product_price_id productPriceId, rip.count count "
+			+ "FROM reservation_info_price rip "
+			+ "WHERE reservation_info_id = :reservation_info_id;";
 }
