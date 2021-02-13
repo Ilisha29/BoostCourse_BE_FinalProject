@@ -44,11 +44,7 @@ public class ReservationServiceImpl implements ReservationService {
 	@Override
 	@Transactional(readOnly = true)
 	public List<ProductWithDisplayInfoAndCategory> getProducts(int categoryId, int start) {
-		List<ProductWithDisplayInfoAndCategory> list = reservationDao.selectDisplayInfos(categoryId, start);
-		for (ProductWithDisplayInfoAndCategory product : list) {
-			System.out.println(product);
-		}
-		return list;
+		return reservationDao.selectDisplayInfos(categoryId, start);
 	}
 
 	@Override
@@ -155,6 +151,25 @@ public class ReservationServiceImpl implements ReservationService {
 			items.add(item);
 		}
 		map.put("items", items);
+		return map;
+	}
+
+	@Override
+	@Transactional
+	public Map<String, Object> putReservationInfos(int reservationInfoId) {
+		Map<String, Object> map = new HashMap<>();
+		int cancelFlag = reservationDao.getReservationInfosCancelFlag(reservationInfoId);
+		if (cancelFlag == 1){
+			map.put("result", "fail - already canceled");
+			return map;
+		}
+		reservationDao.putReservationInfos(reservationInfoId);
+		cancelFlag = reservationDao.getReservationInfosCancelFlag(reservationInfoId);
+		if (cancelFlag == 1) {
+			map.put("result", "success");
+		} else {
+			map.put("result", "fail");
+		}
 		return map;
 	}
 }

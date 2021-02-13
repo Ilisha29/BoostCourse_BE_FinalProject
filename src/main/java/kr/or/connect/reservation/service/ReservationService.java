@@ -25,5 +25,6 @@ public interface ReservationService {
 	public List<ReservationUserComment> getCommentsApplyStart(List<ReservationUserComment> reservationUserComments, int start);
 	public Map<String, Object> postReservation(ReservationRegistration reservationRegistration);
 	public Map<String, Object> getReservationInfos(int userId);
+	public Map<String, Object> putReservationInfos(int reservationInfoId);
 	
 }

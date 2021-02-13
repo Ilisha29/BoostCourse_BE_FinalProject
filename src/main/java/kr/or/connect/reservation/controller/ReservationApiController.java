@@ -8,6 +8,7 @@ import java.util.Map;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -18,6 +19,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import kr.or.connect.reservation.dto.ProductWithDisplayInfoAndCategory;
 import kr.or.connect.reservation.dto.PromotionWithCategoryAndProductAndProductImage;
+import kr.or.connect.reservation.dto.ReservationInfo;
 import kr.or.connect.reservation.dto.ReservationRegistration;
 import kr.or.connect.reservation.dto.ReservationUserComment;
 import kr.or.connect.reservation.service.ReservationService;
@@ -126,5 +128,14 @@ public class ReservationApiController {
 	public Map<String, Object> getReservationInfos(Principal principal) {
 		int userId = userDbService.getUser(principal.getName()).getId();
 		return reservationService.getReservationInfos(userId);
+	}
+
+	@ApiOperation(value = "예약 취소하기")
+	@ApiResponses({ @ApiResponse(code = 200, message = "Success Put Reservation"),
+			@ApiResponse(code = 500, message = "Reservation Get Exception!!~~!!") })
+
+	@PutMapping(path = "/reservationInfos")
+	public Map<String, Object> putReservationInfos(@RequestBody ReservationInfo reservationInfo) {
+		return reservationService.putReservationInfos(reservationInfo.getId());
 	}
 }

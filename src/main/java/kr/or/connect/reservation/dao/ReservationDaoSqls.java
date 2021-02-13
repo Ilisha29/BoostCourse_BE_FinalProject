@@ -116,7 +116,15 @@ public class ReservationDaoSqls {
 			"SELECT * FROM product WHERE id = :id;";
 	
 	public static final String SELECT_SUM_PRICE_BY_RESERVATION_ID=
-			"select SUM(rip.count * pp.price) sumPrice "
-			+ "from reservation_info_price rip, product_price pp "
-			+ "where rip.product_price_id = pp.id AND rip.reservation_info_id = :reservation_info_id;";
+			"SELECT SUM(rip.count * pp.price) sumPrice "
+			+ "FROM reservation_info_price rip, product_price pp "
+			+ "WHERE rip.product_price_id = pp.id AND rip.reservation_info_id = :reservation_info_id;";
+	
+	public static final String SELECT_CANCEL_FLAG_BY_RESERVATION_INFO_ID=
+			"SELECT cancel_flag FROM reservation_info WHERE id = :reservation_info_id;";
+	
+	public static final String UPDATE_CANCEL_FLAG_BY_RESERVATION_INFO_ID=
+			"UPDATE reservation_info "
+			+ "SET cancel_flag = 1 "
+			+ "WHERE id = :reservation_info_id;";
 }

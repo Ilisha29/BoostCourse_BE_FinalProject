@@ -168,9 +168,21 @@ public class ReservationDao {
 		return jdbc.queryForObject(SELECT_PRODUCT_BY_PRODUCT_ID, params, rowMapper);
 	}
 
-	public int getSumPrice(int reservation_info_id) {
+	public int getSumPrice(int reservationInfoId) {
 		Map<String, Integer> params = new HashMap<>();
-		params.put("reservation_info_id", reservation_info_id);
+		params.put("reservation_info_id", reservationInfoId);
 		return jdbc.queryForObject(SELECT_SUM_PRICE_BY_RESERVATION_ID, params,Integer.class);
+	}
+
+	public int getReservationInfosCancelFlag(int reservationInfoId) {
+		Map<String, Integer> params = new HashMap<>();
+		params.put("reservation_info_id", reservationInfoId);
+		return jdbc.queryForObject(SELECT_CANCEL_FLAG_BY_RESERVATION_INFO_ID, params,Integer.class);
+	}
+
+	public void putReservationInfos(int reservationInfoId) {
+		Map<String, Integer> params = new HashMap<>();
+		params.put("reservation_info_id", reservationInfoId);
+		jdbc.update(UPDATE_CANCEL_FLAG_BY_RESERVATION_INFO_ID, params);
 	}
 }
