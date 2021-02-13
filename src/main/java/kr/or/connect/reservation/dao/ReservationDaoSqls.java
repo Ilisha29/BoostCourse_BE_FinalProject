@@ -52,6 +52,7 @@ public class ReservationDaoSqls {
 			+ "fi.create_date createDate, fi.modify_date modifyDate "
 			+ "FROM product_image pi, file_info fi "
 			+ "WHERE pi.file_id = fi.id AND pi.type = 'ma' AND pi.product_id = :product_id;";
+	
 	public static final String SELECT_DISPLAY_INFO_IMAGES=
 			"SELECT dii.id id, dii.display_info_id displayInfoId, dii.file_id fileId, "
 			+ "fi.file_name fileName, fi.save_file_name saveFileName, "
@@ -107,4 +108,15 @@ public class ReservationDaoSqls {
 			"SELECT rip.id id, rip.reservation_info_id reservationInfoId, rip.product_price_id productPriceId, rip.count count "
 			+ "FROM reservation_info_price rip "
 			+ "WHERE reservation_info_id = :reservation_info_id;";
+	
+	public static final String SELECT_RESERVATION_INFO_LIST_BY_USER_ID=
+			"SELECT * FROM reservation_info WHERE user_id = :user_id;";
+	
+	public static final String SELECT_PRODUCT_BY_PRODUCT_ID=
+			"SELECT * FROM product WHERE id = :id;";
+	
+	public static final String SELECT_SUM_PRICE_BY_RESERVATION_ID=
+			"select SUM(rip.count * pp.price) sumPrice "
+			+ "from reservation_info_price rip, product_price pp "
+			+ "where rip.product_price_id = pp.id AND rip.reservation_info_id = :reservation_info_id;";
 }

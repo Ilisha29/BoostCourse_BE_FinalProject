@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import kr.or.connect.reservation.dao.ReservationDao;
 import kr.or.connect.reservation.dto.Category;
 import kr.or.connect.reservation.dto.DisplayInfoImageWithFileInfo;
+import kr.or.connect.reservation.dto.Product;
 import kr.or.connect.reservation.dto.ProductImageWithFileInfo;
 import kr.or.connect.reservation.dto.ProductPrice;
 import kr.or.connect.reservation.dto.ProductWithDisplayInfoAndCategory;
@@ -115,7 +116,6 @@ public class ReservationServiceImpl implements ReservationService {
 		Map<String, Object> map = new HashMap<>();
 		reservationDao.postReservationInfo(reservationRegistration);
 		int id = reservationDao.getReservationInfoId(reservationRegistration);
-		System.out.println("IDIDIDIDDIIDIIDIDIDID : "+id);
 		reservationDao.postReservationInfoPrice(id, reservationRegistration);
 		ReservationInfo reservationInfo = reservationDao.getReservationInfo(id);
 		List<ReservationInfoPrice> reservationInfoPrice = reservationDao.getReservatioinInfoPrice(id);
@@ -128,6 +128,33 @@ public class ReservationServiceImpl implements ReservationService {
 		map.put("createDate", reservationInfo.getCreateDate());
 		map.put("modifyDate", reservationInfo.getModifyDate());
 		map.put("prices", reservationInfoPrice);
+		return map;
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public Map<String, Object> getReservationInfos(int userId) {
+		Map<String, Object> map = new HashMap<>();
+		List<ReservationInfo> reservationInfoList = reservationDao.getReservationInfoList(userId);
+		map.put("size", reservationInfoList.size());
+		List<Map<String, Object>> items = new ArrayList<>();
+		for (ReservationInfo reservationInfo : reservationInfoList) {
+			Map<String, Object> item = new HashMap<>();
+			item.put("id", reservationInfo.getId());
+			item.put("productId", reservationInfo.getProductId());
+			item.put("displayInfoId", reservationInfo.getDisplayInfoId());
+			item.put("cancelFlag", reservationInfo.getCancelFlag());
+			Product product = reservationDao.getProductByProductId(reservationInfo.getProductId());
+			item.put("productDescription", product.getDescription());
+			item.put("productContent", product.getContent());
+			item.put("userId", userId);
+			item.put("sumPrice", reservationDao.getSumPrice(reservationInfo.getId()));
+			item.put("reservationDate", reservationInfo.getReservationDate());
+			item.put("createDate", reservationInfo.getCreateDate());
+			item.put("modifyDate", reservationInfo.getModifyDate());
+			items.add(item);
+		}
+		map.put("items", items);
 		return map;
 	}
 }

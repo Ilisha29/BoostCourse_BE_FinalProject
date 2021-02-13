@@ -16,6 +16,7 @@ import org.springframework.stereotype.Repository;
 
 import kr.or.connect.reservation.dto.Category;
 import kr.or.connect.reservation.dto.DisplayInfoImageWithFileInfo;
+import kr.or.connect.reservation.dto.Product;
 import kr.or.connect.reservation.dto.ProductImageWithFileInfo;
 import kr.or.connect.reservation.dto.ProductPrice;
 import kr.or.connect.reservation.dto.ProductWithDisplayInfoAndCategory;
@@ -151,5 +152,25 @@ public class ReservationDao {
 		Map<String, Integer> params = new HashMap<>();
 		params.put("reservation_info_id", id);
 		return jdbc.query(SELECT_RESERVATION_INFO_PRICE_BY_ID, params, rowMapper);
+	}
+
+	public List<ReservationInfo> getReservationInfoList(int userId) {
+		RowMapper<ReservationInfo> rowMapper = BeanPropertyRowMapper.newInstance(ReservationInfo.class);
+		Map<String, Integer> params = new HashMap<>();
+		params.put("user_id", userId);
+		return jdbc.query(SELECT_RESERVATION_INFO_LIST_BY_USER_ID, params, rowMapper);
+	}
+
+	public Product getProductByProductId(int productId) {
+		RowMapper<Product> rowMapper = BeanPropertyRowMapper.newInstance(Product.class);
+		Map<String, Integer> params = new HashMap<>();
+		params.put("id", productId);
+		return jdbc.queryForObject(SELECT_PRODUCT_BY_PRODUCT_ID, params, rowMapper);
+	}
+
+	public int getSumPrice(int reservation_info_id) {
+		Map<String, Integer> params = new HashMap<>();
+		params.put("reservation_info_id", reservation_info_id);
+		return jdbc.queryForObject(SELECT_SUM_PRICE_BY_RESERVATION_ID, params,Integer.class);
 	}
 }

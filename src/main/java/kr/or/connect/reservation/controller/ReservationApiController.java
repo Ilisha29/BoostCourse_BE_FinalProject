@@ -1,5 +1,6 @@
 package kr.or.connect.reservation.controller;
 
+import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,15 +21,18 @@ import kr.or.connect.reservation.dto.PromotionWithCategoryAndProductAndProductIm
 import kr.or.connect.reservation.dto.ReservationRegistration;
 import kr.or.connect.reservation.dto.ReservationUserComment;
 import kr.or.connect.reservation.service.ReservationService;
+import kr.or.connect.reservation.service.UserDbService;
 
 @RestController
 @RequestMapping(path = "/api")
 public class ReservationApiController {
 
 	private ReservationService reservationService;
+	private UserDbService userDbService;
 
-	public ReservationApiController(ReservationService reservationService) {
+	public ReservationApiController(ReservationService reservationService, UserDbService userDbService) {
 		this.reservationService = reservationService;
+		this.userDbService = userDbService;
 	}
 
 	@ApiOperation(value = "카테고리 확인")
@@ -112,5 +116,15 @@ public class ReservationApiController {
 	@PostMapping(path = "/reservationInfos")
 	public Map<String, Object> postReservation(@RequestBody ReservationRegistration request) {
 		return reservationService.postReservation(request);
+	}
+
+	@ApiOperation(value = "예약 확인하기")
+	@ApiResponses({ @ApiResponse(code = 200, message = "Success Get Reservation"),
+			@ApiResponse(code = 500, message = "Reservation Get Exception!!~~!!") })
+
+	@GetMapping(path = "/reservationInfos")
+	public Map<String, Object> getReservationInfos(Principal principal) {
+		int userId = userDbService.getUser(principal.getName()).getId();
+		return reservationService.getReservationInfos(userId);
 	}
 }
