@@ -25,6 +25,7 @@ import kr.or.connect.reservation.dto.ReservationInfo;
 import kr.or.connect.reservation.dto.ReservationInfoPrice;
 import kr.or.connect.reservation.dto.ReservationRegistration;
 import kr.or.connect.reservation.dto.ReservationUserComment;
+import kr.or.connect.reservation.dto.ReservationUserCommentImage;
 
 @Repository
 public class ReservationDao {
@@ -107,7 +108,10 @@ public class ReservationDao {
 	}
 
 	public List<ReservationUserComment> getComments(int productId) {
+		
 		RowMapper<ReservationUserComment> rowMapper = BeanPropertyRowMapper.newInstance(ReservationUserComment.class);
+		if (productId == 0)
+			return jdbc.query(SELECT_RESERVATION_USER_COMMENTS, rowMapper);
 		Map<String, Integer> params = new HashMap<>();
 		params.put("product_id", productId);
 		return jdbc.query(SELECT_RESERVATION_USER_COMMENTS_BY_PRODUCT_ID, params, rowMapper);
@@ -226,5 +230,12 @@ public class ReservationDao {
 		params.put("reservation_user_comment_id", reservationUserCommentId);
 		params.put("file_id", fileId);
 		return jdbc.queryForObject(SELECT_RESERVATION_USER_COMMENT_IMAGE_ID, params, Integer.class);
+	}
+
+	public List<ReservationUserCommentImage> getReservationUserCommentImage(int reservation_user_comment_id) {
+		RowMapper<ReservationUserCommentImage> rowMapper = BeanPropertyRowMapper.newInstance(ReservationUserCommentImage.class);
+		Map<String, Object> params = new HashMap<>();
+		params.put("reservation_user_comment_id", reservation_user_comment_id);
+		return jdbc.query(SELECT_ALL_RESERVATION_USER_COMMENT_IMAGE, params, rowMapper);	
 	}
 }

@@ -6,8 +6,8 @@ public class ReservationUserComment {
 	private int id;
 	private int productId;
 	private int reservationInfoId;
+	private int userId;
 	private int score;
-	private String reservationEmail;
 	private String comment;
 	private Date createDate;
 	private Date modifyDate;
@@ -29,17 +29,17 @@ public class ReservationUserComment {
 	public void setReservationInfoId(int reservationInfoId) {
 		this.reservationInfoId = reservationInfoId;
 	}
+	public int getUserId() {
+		return userId;
+	}
+	public void setUserId(int userId) {
+		this.userId = userId;
+	}
 	public int getScore() {
 		return score;
 	}
 	public void setScore(int score) {
 		this.score = score;
-	}
-	public String getReservationEmail() {
-		return reservationEmail;
-	}
-	public void setReservationEmail(String reservationEmail) {
-		this.reservationEmail = reservationEmail;
 	}
 	public String getComment() {
 		return comment;
@@ -62,7 +62,8 @@ public class ReservationUserComment {
 	@Override
 	public String toString() {
 		return "ReservationUserComment [id=" + id + ", productId=" + productId + ", reservationInfoId="
-				+ reservationInfoId + ", score=" + score + ", reservationEmail=" + reservationEmail + ", comment="
-				+ comment + ", createDate=" + createDate + ", modifyDate=" + modifyDate + "]";
+				+ reservationInfoId + ", userId=" + userId + ", score=" + score + ", comment=" + comment
+				+ ", createDate=" + createDate + ", modifyDate=" + modifyDate + "]";
 	}
+	
 }

@@ -12,6 +12,7 @@ import kr.or.connect.reservation.dto.PromotionWithCategoryAndProductAndProductIm
 import kr.or.connect.reservation.dto.ReservationInfo;
 import kr.or.connect.reservation.dto.ReservationRegistration;
 import kr.or.connect.reservation.dto.ReservationUserComment;
+import kr.or.connect.reservation.dto.ReservationUserCommentWithImage;
 
 public interface ReservationService {
 	public List<Category> getCategories();
@@ -22,8 +23,8 @@ public interface ReservationService {
 	public List<DisplayInfoImageWithFileInfo> getDisplayInfoImages(int display_id);
 	public int getProductAvgScore(int display_id);
 	public List<ProductPrice> getProductPrices(int display_id);
-	public List<ReservationUserComment> getComments(int categoryId);
-	public List<ReservationUserComment> getCommentsApplyStart(List<ReservationUserComment> reservationUserComments, int start);
+	public Map<String, Object> getComments(int categoryId, int start);
+	public List<ReservationUserCommentWithImage> getCommentsApplyStart(List<ReservationUserComment> reservationUserComments, int start);
 	public Map<String, Object> postReservation(ReservationRegistration reservationRegistration);
 	public Map<String, Object> getReservationInfos(int userId);
 	public Map<String, Object> putReservationInfos(int reservationInfoId);

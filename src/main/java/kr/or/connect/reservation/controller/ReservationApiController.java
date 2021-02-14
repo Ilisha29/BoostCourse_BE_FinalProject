@@ -108,14 +108,7 @@ public class ReservationApiController {
 	public Map<String, Object> getComments(
 			@RequestParam(name = "productId", required = false, defaultValue = "0") int productId,
 			@RequestParam(name = "start", required = false, defaultValue = "0") int start) {
-		Map<String, Object> map = new HashMap<>();
-		List<ReservationUserComment> reservationUserComments = reservationService.getComments(productId);
-		map.put("totalCount", reservationUserComments.size());
-		List<ReservationUserComment> applyStartReservationUserComments = reservationService
-				.getCommentsApplyStart(reservationUserComments, start);
-		map.put("commentCount", applyStartReservationUserComments.size());
-		map.put("reservaionUserComments", applyStartReservationUserComments);
-		return map;
+		return reservationService.getComments(productId, start);
 	}
 
 	@ApiOperation(value = "예약 등록하기")

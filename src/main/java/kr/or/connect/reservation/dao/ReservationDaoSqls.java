@@ -84,6 +84,9 @@ public class ReservationDaoSqls {
 			+ "FROM reservation_user_comment ruc "
 			+ "WHERE ruc.product_id = :product_id";
 	
+	public static final String SELECT_RESERVATION_USER_COMMENTS=
+			"SELECT * FROM reservation_user_comment;";
+	
 	public static final String INSERT_RESERVATION_INFO=
 			"INSERT INTO reservation_info(product_id, display_info_id, user_id, reservation_date, create_date, modify_date) "
 			+ "VALUES (:product_id, :display_info_id, :user_id, :reservation_date, now(), now());";
@@ -150,4 +153,12 @@ public class ReservationDaoSqls {
 			+ "WHERE reservation_info_id = :reservation_info_id "
 			+ "AND reservation_user_comment_id = :reservation_user_comment_id "
 			+ "AND file_id = :file_id;";
+	
+	public static final String SELECT_ALL_RESERVATION_USER_COMMENT_IMAGE=
+			"SELECT ruci.id, ruci.reservation_info_id, ruci.reservation_user_comment_id, "
+			+ "ruci.file_id, fi.file_name, fi.save_file_name, fi.content_type, fi.delete_flag, "
+			+ "fi.create_date, fi.modify_date "
+			+ "FROM reservation_user_comment_image AS ruci JOIN file_info AS fi "
+			+ "ON ruci.file_id = fi.id "
+			+ "WHERE reservation_user_comment_id = :reservation_user_comment_id;";
 }

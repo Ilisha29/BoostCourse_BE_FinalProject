@@ -20,6 +20,7 @@ import kr.or.connect.reservation.dto.ReservationInfo;
 import kr.or.connect.reservation.dto.ReservationInfoPrice;
 import kr.or.connect.reservation.dto.ReservationRegistration;
 import kr.or.connect.reservation.dto.ReservationUserComment;
+import kr.or.connect.reservation.dto.ReservationUserCommentWithImage;
 import kr.or.connect.reservation.service.ReservationService;
 
 @Service
@@ -89,19 +90,38 @@ public class ReservationServiceImpl implements ReservationService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public List<ReservationUserComment> getComments(int productId) {
-		return reservationDao.getComments(productId);
+	public Map<String, Object> getComments(int productId, int start) {
+		Map<String, Object> map = new HashMap<>();
+		List<ReservationUserComment> reservationUserComments = reservationDao.getComments(productId);
+		map.put("totalCount", reservationUserComments.size());
+		List<ReservationUserCommentWithImage> applyStartReservationUserComments = getCommentsApplyStart(
+				reservationUserComments, start);
+		map.put("commentCount", applyStartReservationUserComments.size());
+		map.put("reservaionUserComments", applyStartReservationUserComments);
+		return map;
 	}
 
 	@Override
-	public List<ReservationUserComment> getCommentsApplyStart(List<ReservationUserComment> reservationUserComments,
-			int start) {
+	public List<ReservationUserCommentWithImage> getCommentsApplyStart(
+			List<ReservationUserComment> reservationUserComments, int start) {
 		int count = 0;
-		List<ReservationUserComment> appliedStartList = new ArrayList<>();
+		List<ReservationUserCommentWithImage> appliedStartList = new ArrayList<>();
+		if(start != 0) {
+			start--;
+		}
 		for (int i = start; i < reservationUserComments.size(); i++) {
 			if (count == LIMIT)
 				break;
-			appliedStartList.add(reservationUserComments.get(i));
+			ReservationUserComment reservationUserComment = reservationUserComments.get(i);
+			ReservationUserCommentWithImage reservationUserCommentWithImage = new ReservationUserCommentWithImage();
+			reservationUserCommentWithImage.setId(reservationUserComment.getId());
+			reservationUserCommentWithImage.setProductId(reservationUserComment.getProductId());
+			reservationUserCommentWithImage.setReservationInfoId(reservationUserComment.getReservationInfoId());
+			reservationUserCommentWithImage.setScore(reservationUserComment.getScore());
+			reservationUserCommentWithImage.setUserId(reservationUserComment.getUserId());
+			reservationUserCommentWithImage.setComment(reservationUserComment.getComment());
+			reservationUserCommentWithImage.setReservationUserCommentImages(reservationDao.getReservationUserCommentImage(reservationUserComment.getId()));
+			appliedStartList.add(reservationUserCommentWithImage);
 			count++;
 		}
 		return appliedStartList;
