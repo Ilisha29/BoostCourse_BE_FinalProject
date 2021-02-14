@@ -127,4 +127,27 @@ public class ReservationDaoSqls {
 			"UPDATE reservation_info "
 			+ "SET cancel_flag = 1 "
 			+ "WHERE id = :reservation_info_id;";
+	
+	public static final String SELECT_RESERVATIONINFO_BY_USER_ID_AND_RESERVATION_INFO_ID=
+			"SELECT * "
+			+ "FROM reservation_info "
+			+ "WHERE id = :reservation_info_id AND user_id = :user_id;";
+	
+	public static final String INSERT_RESERVATION_USER_COMMENT=
+			"INSERT INTO reservation_user_comment(product_id, reservation_info_id, user_id, score, comment, create_date, modify_date) "
+			+ "VALUES(:product_id, :reservation_info_id, :user_id, :score, :comment, :create_date, :modify_date);";
+	
+	public static final String SELECT_RESERVATION_USER_COMMENT_ID=
+			"SELECT id FROM reservation_user_comment ruc "
+			+ "WHERE ruc.reservation_info_id = :reservation_info_id AND ruc.create_date = :create_date;";
+	
+	public static final String INSERT_RESERVATION_USER_COMMENT_IMAGE=
+			"INSERT INTO reservation_user_comment_image(reservation_info_id, reservation_user_comment_id, file_id) "
+			+ "VALUES(:reservation_info_id, :reservation_user_comment_id, :file_id);";
+	
+	public static final String SELECT_RESERVATION_USER_COMMENT_IMAGE_ID=
+			"SELECT id FROM reservation_user_comment_image "
+			+ "WHERE reservation_info_id = :reservation_info_id "
+			+ "AND reservation_user_comment_id = :reservation_user_comment_id "
+			+ "AND file_id = :file_id;";
 }

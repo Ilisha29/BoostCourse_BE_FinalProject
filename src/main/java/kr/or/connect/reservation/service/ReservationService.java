@@ -9,6 +9,7 @@ import kr.or.connect.reservation.dto.ProductImageWithFileInfo;
 import kr.or.connect.reservation.dto.ProductPrice;
 import kr.or.connect.reservation.dto.ProductWithDisplayInfoAndCategory;
 import kr.or.connect.reservation.dto.PromotionWithCategoryAndProductAndProductImage;
+import kr.or.connect.reservation.dto.ReservationInfo;
 import kr.or.connect.reservation.dto.ReservationRegistration;
 import kr.or.connect.reservation.dto.ReservationUserComment;
 
@@ -26,5 +27,6 @@ public interface ReservationService {
 	public Map<String, Object> postReservation(ReservationRegistration reservationRegistration);
 	public Map<String, Object> getReservationInfos(int userId);
 	public Map<String, Object> putReservationInfos(int reservationInfoId);
-	
+	public ReservationInfo getReservationInfoByUserIdWithReservationInfoId(int userId, int reservationInfoId);
+	public boolean postComment(ReservationInfo reservationInfo, int score, String comment, int fileId, String create_date);
 }

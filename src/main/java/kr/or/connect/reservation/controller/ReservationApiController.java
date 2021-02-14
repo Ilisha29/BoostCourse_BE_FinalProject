@@ -1,6 +1,8 @@
 package kr.or.connect.reservation.controller;
 
 import java.security.Principal;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -22,6 +25,7 @@ import kr.or.connect.reservation.dto.PromotionWithCategoryAndProductAndProductIm
 import kr.or.connect.reservation.dto.ReservationInfo;
 import kr.or.connect.reservation.dto.ReservationRegistration;
 import kr.or.connect.reservation.dto.ReservationUserComment;
+import kr.or.connect.reservation.service.FileService;
 import kr.or.connect.reservation.service.ReservationService;
 import kr.or.connect.reservation.service.UserDbService;
 
@@ -31,10 +35,13 @@ public class ReservationApiController {
 
 	private ReservationService reservationService;
 	private UserDbService userDbService;
+	private FileService fileService;
 
-	public ReservationApiController(ReservationService reservationService, UserDbService userDbService) {
+	public ReservationApiController(ReservationService reservationService, UserDbService userDbService,
+			FileService fileService) {
 		this.reservationService = reservationService;
 		this.userDbService = userDbService;
+		this.fileService = fileService;
 	}
 
 	@ApiOperation(value = "카테고리 확인")
@@ -137,5 +144,35 @@ public class ReservationApiController {
 	@PutMapping(path = "/reservationInfos")
 	public Map<String, Object> putReservationInfos(@RequestBody ReservationInfo reservationInfo) {
 		return reservationService.putReservationInfos(reservationInfo.getId());
+	}
+
+	@ApiOperation(value = "댓글 등록하기")
+	@ApiResponses({ @ApiResponse(code = 200, message = "Success Put Comment"),
+			@ApiResponse(code = 500, message = "Reservation Get Exception!!~~!!") })
+
+	@PostMapping(path = "/comments")
+	public Map<String, Object> postComment(@RequestParam("reservationInfoId") int reservationInfoId,
+			@RequestParam("score") int score, @RequestParam("comment") String comment,
+			@RequestParam("multipartFile") MultipartFile file, Principal principal) {
+		Map<String, Object> map = new HashMap<>();
+		ReservationInfo reservationInfo = reservationService.getReservationInfoByUserIdWithReservationInfoId(
+				userDbService.getUser(principal.getName()).getId(), reservationInfoId);
+		if (reservationInfo == null) {
+			map.put("result", "fail by no reservationinfo");
+			return map;
+		}
+		String create_date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+		int fileId = fileService.postFile(file, create_date);
+		if (fileId == 0) {
+			map.put("result", "fail by fileupload");
+			return map;
+		}
+		if (!reservationService.postComment(reservationInfo, score, comment, fileId, create_date)) {
+			map.put("result", "fail by post comment");
+			return map;
+		}
+		map.put("result", "success");
+		map.put("productId", reservationInfo.getProductId());
+		return map;
 	}
 }

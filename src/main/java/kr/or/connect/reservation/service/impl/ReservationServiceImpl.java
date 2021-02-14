@@ -25,6 +25,7 @@ import kr.or.connect.reservation.service.ReservationService;
 @Service
 public class ReservationServiceImpl implements ReservationService {
 	private static final int LIMIT = 5;
+	private static final int CANCELED = 1;
 	ReservationDao reservationDao;
 
 	public ReservationServiceImpl(ReservationDao reservationDao) {
@@ -159,17 +160,43 @@ public class ReservationServiceImpl implements ReservationService {
 	public Map<String, Object> putReservationInfos(int reservationInfoId) {
 		Map<String, Object> map = new HashMap<>();
 		int cancelFlag = reservationDao.getReservationInfosCancelFlag(reservationInfoId);
-		if (cancelFlag == 1){
+		if (cancelFlag == 1) {
 			map.put("result", "fail - already canceled");
 			return map;
 		}
 		reservationDao.putReservationInfos(reservationInfoId);
 		cancelFlag = reservationDao.getReservationInfosCancelFlag(reservationInfoId);
-		if (cancelFlag == 1) {
+		if (cancelFlag == CANCELED) {
 			map.put("result", "success");
 		} else {
 			map.put("result", "fail");
 		}
 		return map;
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public ReservationInfo getReservationInfoByUserIdWithReservationInfoId(int userId, int reservationInfoId) {
+		return reservationDao.getReservationInfoByUserIdWithReservationInfoId(userId, reservationInfoId);
+	}
+
+	@Override
+	@Transactional
+	public boolean postComment(ReservationInfo reservationInfo, int score, String comment, int fileId,
+			String create_date) {
+		reservationDao.postReservationUserComment(reservationInfo, score, comment, create_date);
+		int reservationUserCommentId = reservationDao.getReservationUserComment(reservationInfo.getId(), create_date);
+		System.out.println("reservationUserCommentId : " + reservationUserCommentId);
+		if (reservationUserCommentId == 0) {
+			return false;
+		}
+		reservationDao.postReservationUserCommentImage(reservationInfo.getId(), reservationUserCommentId, fileId);
+		int reservationUserCommentImageId = reservationDao.getReservationUserCommentImageId(reservationInfo.getId(),
+				reservationUserCommentId, fileId);
+		System.out.println("reservationUserCommentImageId : " + reservationUserCommentImageId);
+		if (reservationUserCommentImageId == 0) {
+			return false;
+		}
+		return true;
 	}
 }

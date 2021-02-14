@@ -132,8 +132,7 @@ public class ReservationDao {
 	public void postReservationInfoPrice(int id, ReservationRegistration reservationRegistration) {
 		Map<String, Object> params = new HashMap<>();
 		params.put("reservation_info_id", id);
-		for (ReservationInfoPrice price : reservationRegistration.getPrices())
-		{
+		for (ReservationInfoPrice price : reservationRegistration.getPrices()) {
 			params.put("product_price_id", price.getProductPriceId());
 			params.put("count", price.getCount());
 			jdbc.update(INSERT_RESERVATION_INFO_PRICE, params);
@@ -171,18 +170,61 @@ public class ReservationDao {
 	public int getSumPrice(int reservationInfoId) {
 		Map<String, Integer> params = new HashMap<>();
 		params.put("reservation_info_id", reservationInfoId);
-		return jdbc.queryForObject(SELECT_SUM_PRICE_BY_RESERVATION_ID, params,Integer.class);
+		return jdbc.queryForObject(SELECT_SUM_PRICE_BY_RESERVATION_ID, params, Integer.class);
 	}
 
 	public int getReservationInfosCancelFlag(int reservationInfoId) {
 		Map<String, Integer> params = new HashMap<>();
 		params.put("reservation_info_id", reservationInfoId);
-		return jdbc.queryForObject(SELECT_CANCEL_FLAG_BY_RESERVATION_INFO_ID, params,Integer.class);
+		return jdbc.queryForObject(SELECT_CANCEL_FLAG_BY_RESERVATION_INFO_ID, params, Integer.class);
 	}
 
 	public void putReservationInfos(int reservationInfoId) {
 		Map<String, Integer> params = new HashMap<>();
 		params.put("reservation_info_id", reservationInfoId);
 		jdbc.update(UPDATE_CANCEL_FLAG_BY_RESERVATION_INFO_ID, params);
+	}
+
+	public ReservationInfo getReservationInfoByUserIdWithReservationInfoId(int userId, int reservationInfoId) {
+		RowMapper<ReservationInfo> rowMapper = BeanPropertyRowMapper.newInstance(ReservationInfo.class);
+		Map<String, Integer> params = new HashMap<>();
+		params.put("user_id", userId);
+		params.put("reservation_info_id", reservationInfoId);
+		return jdbc.queryForObject(SELECT_RESERVATIONINFO_BY_USER_ID_AND_RESERVATION_INFO_ID, params, rowMapper);
+	}
+
+	public void postReservationUserComment(ReservationInfo reservationInfo, int score, String comment, String create_date) {
+		Map<String, Object> params = new HashMap<>();
+		params.put("product_id", reservationInfo.getProductId());
+		params.put("reservation_info_id", reservationInfo.getId());
+		params.put("user_id", reservationInfo.getUserId());
+		params.put("score", score);
+		params.put("comment", comment);
+		params.put("create_date", create_date);
+		params.put("modify_date", create_date);
+		jdbc.update(INSERT_RESERVATION_USER_COMMENT, params);
+	}
+
+	public int getReservationUserComment(int reservationInfoId, String create_date) {
+		Map<String, Object> params = new HashMap<>();
+		params.put("reservation_info_id", reservationInfoId);
+		params.put("create_date", create_date);
+		return jdbc.queryForObject(SELECT_RESERVATION_USER_COMMENT_ID, params, Integer.class);
+	}
+
+	public void postReservationUserCommentImage(int id, int reservationUserCommentId, int fileId) {
+		Map<String, Object> params = new HashMap<>();
+		params.put("reservation_info_id", id);
+		params.put("reservation_user_comment_id", reservationUserCommentId);
+		params.put("file_id", fileId);
+		jdbc.update(INSERT_RESERVATION_USER_COMMENT_IMAGE, params);
+	}
+
+	public int getReservationUserCommentImageId(int id, int reservationUserCommentId, int fileId) {
+		Map<String, Object> params = new HashMap<>();
+		params.put("reservation_info_id", id);
+		params.put("reservation_user_comment_id", reservationUserCommentId);
+		params.put("file_id", fileId);
+		return jdbc.queryForObject(SELECT_RESERVATION_USER_COMMENT_IMAGE_ID, params, Integer.class);
 	}
 }
