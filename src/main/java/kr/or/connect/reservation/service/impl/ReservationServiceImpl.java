@@ -186,14 +186,12 @@ public class ReservationServiceImpl implements ReservationService {
 			String create_date) {
 		reservationDao.postReservationUserComment(reservationInfo, score, comment, create_date);
 		int reservationUserCommentId = reservationDao.getReservationUserComment(reservationInfo.getId(), create_date);
-		System.out.println("reservationUserCommentId : " + reservationUserCommentId);
 		if (reservationUserCommentId == 0) {
 			return false;
 		}
 		reservationDao.postReservationUserCommentImage(reservationInfo.getId(), reservationUserCommentId, fileId);
 		int reservationUserCommentImageId = reservationDao.getReservationUserCommentImageId(reservationInfo.getId(),
 				reservationUserCommentId, fileId);
-		System.out.println("reservationUserCommentImageId : " + reservationUserCommentImageId);
 		if (reservationUserCommentImageId == 0) {
 			return false;
 		}

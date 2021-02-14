@@ -1,6 +1,7 @@
 package kr.or.connect.reservation.dao;
 
 import static kr.or.connect.reservation.dao.FileDaoSqls.INSERT_FILE_INFO;
+import static kr.or.connect.reservation.dao.FileDaoSqls.SELECT_FILE_INFO_BY_FILE_ID;
 import static kr.or.connect.reservation.dao.FileDaoSqls.SELECT_FILE_INFO_ID_BY_FILENAME_WITH_CREATE_DATE;
 
 import java.util.HashMap;
@@ -8,6 +9,8 @@ import java.util.Map;
 
 import javax.sql.DataSource;
 
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -38,6 +41,13 @@ public class FileDao {
 		params.put("file_name", originalFilename);
 		params.put("create_date", create_date);
 		return jdbc.queryForObject(SELECT_FILE_INFO_ID_BY_FILENAME_WITH_CREATE_DATE, params, Integer.class);
+	}
+
+	public FileInfo getFileInfo(int fileId) {
+		RowMapper<FileInfo> rowMapper = BeanPropertyRowMapper.newInstance(FileInfo.class);
+		Map<String, Object> params = new HashMap<>();
+		params.put("id", fileId);
+		return jdbc.queryForObject(SELECT_FILE_INFO_BY_FILE_ID, params, rowMapper);
 	}
 
 }

@@ -2,8 +2,6 @@ package kr.or.connect.reservation.service.impl;
 
 import java.io.FileOutputStream;
 import java.io.InputStream;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,6 +39,11 @@ public class FileServiceImpl implements FileService {
 		}
 		fileDao.postFile(fileInfo, create_date);	
 		return fileDao.getFileInfoId(file.getOriginalFilename(),create_date);
+	}
+
+	@Override
+	public FileInfo getFileInfo(int fileId) {
+		return fileDao.getFileInfo(fileId);
 	}
 	
 }

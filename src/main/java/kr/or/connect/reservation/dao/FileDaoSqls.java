@@ -8,4 +8,8 @@ public class FileDaoSqls {
 	public static final String SELECT_FILE_INFO_ID_BY_FILENAME_WITH_CREATE_DATE=
 			"SELECT id FROM file_info "
 			+ "WHERE file_name = :file_name AND create_date = :create_date;";
+	
+	public static final String SELECT_FILE_INFO_BY_FILE_ID=
+			"SELECT * FROM file_info "
+			+ "WHERE id = :id;";
 }
