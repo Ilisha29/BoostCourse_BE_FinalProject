@@ -15,17 +15,17 @@ import kr.or.connect.reservation.service.FileService;
 public class FileServiceImpl implements FileService {
 	private static final String FILE_DIRECTORY_PATH = "/Users/minskim/Desktop/upload/";
 	private FileDao fileDao;
-	
-	FileServiceImpl(FileDao fileDao){
+
+	FileServiceImpl(FileDao fileDao) {
 		this.fileDao = fileDao;
 	}
-	
+
 	@Override
 	@Transactional
 	public int postFile(MultipartFile file, String create_date) {
 		FileInfo fileInfo = new FileInfo();
 		fileInfo.setFileName(file.getOriginalFilename());
-		fileInfo.setSaveFileName(FILE_DIRECTORY_PATH+file.getOriginalFilename());
+		fileInfo.setSaveFileName(FILE_DIRECTORY_PATH + file.getOriginalFilename());
 		fileInfo.setContentType(file.getContentType());
 		try (FileOutputStream fos = new FileOutputStream(FILE_DIRECTORY_PATH + file.getOriginalFilename());
 				InputStream is = file.getInputStream();) {
@@ -37,13 +37,13 @@ public class FileServiceImpl implements FileService {
 		} catch (Exception ex) {
 			throw new RuntimeException("file Save Error");
 		}
-		fileDao.postFile(fileInfo, create_date);	
-		return fileDao.getFileInfoId(file.getOriginalFilename(),create_date);
+		fileDao.postFile(fileInfo, create_date);
+		return fileDao.getFileInfoId(file.getOriginalFilename(), create_date);
 	}
 
 	@Override
 	public FileInfo getFileInfo(int fileId) {
 		return fileDao.getFileInfo(fileId);
 	}
-	
+
 }
