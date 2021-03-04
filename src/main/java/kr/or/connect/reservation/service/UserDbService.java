@@ -6,6 +6,7 @@ import kr.or.connect.reservation.dto.User;
 import kr.or.connect.reservation.dto.UserRole;
 
 public interface UserDbService {
-    public User getUser(String loginUserId);
-    public List<UserRole> getUserRoles(String loginUserId);
+	public User getUser(String loginUserId);
+
+	public List<UserRole> getUserRoles(String loginUserId);
 }

@@ -108,7 +108,6 @@ public class ReservationDao {
 	}
 
 	public List<ReservationUserComment> getComments(int productId) {
-		
 		RowMapper<ReservationUserComment> rowMapper = BeanPropertyRowMapper.newInstance(ReservationUserComment.class);
 		if (productId == 0)
 			return jdbc.query(SELECT_RESERVATION_USER_COMMENTS, rowMapper);

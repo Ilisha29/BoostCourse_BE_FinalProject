@@ -47,7 +47,6 @@ public class ReservationApiController {
 	@ApiOperation(value = "카테고리 확인")
 	@ApiResponses({ @ApiResponse(code = 200, message = "OK Good Boy"),
 			@ApiResponse(code = 500, message = "Exception!!~~!!") })
-
 	@GetMapping(path = "/categories")
 	public Map<String, Object> getCategories() {
 		Map<String, Object> map = new HashMap<>();
@@ -59,7 +58,6 @@ public class ReservationApiController {
 	@ApiOperation(value = "상품 목록 구하기 확인")
 	@ApiResponses({ @ApiResponse(code = 200, message = "Success GET DisplyaInfo"),
 			@ApiResponse(code = 500, message = "Exception!!~~!!") })
-
 	@GetMapping(path = "/displayinfos")
 	public Map<String, Object> getDisplayInfos(
 			@RequestParam(name = "categoryId", required = false, defaultValue = "0") int categoryId,
@@ -72,10 +70,9 @@ public class ReservationApiController {
 		return map;
 	}
 
-	@ApiOperation(value = "프로모 확인")
+	@ApiOperation(value = "프로모션 확인")
 	@ApiResponses({ @ApiResponse(code = 200, message = "Success GET Promotions"),
 			@ApiResponse(code = 500, message = "Exception!!~~!!") })
-
 	@GetMapping(path = "/promotions")
 	public Map<String, Object> getPromotions() {
 		Map<String, Object> map = new HashMap<>();
@@ -88,7 +85,6 @@ public class ReservationApiController {
 	@ApiOperation(value = "상품정보 확인")
 	@ApiResponses({ @ApiResponse(code = 200, message = "Success GET ProductInfo"),
 			@ApiResponse(code = 500, message = "Product Info Exception!!~~!!") })
-
 	@GetMapping(path = "/displayinfos/{displayId}")
 	public Map<String, Object> getProductInfo(@PathVariable(name = "displayId") int displayId) {
 		Map<String, Object> map = new HashMap<>();
@@ -103,7 +99,6 @@ public class ReservationApiController {
 	@ApiOperation(value = "댓글 목록 확인")
 	@ApiResponses({ @ApiResponse(code = 200, message = "Success GET Replies"),
 			@ApiResponse(code = 500, message = "Product Info Exception!!~~!!") })
-
 	@GetMapping(path = "/comments")
 	public Map<String, Object> getComments(
 			@RequestParam(name = "productId", required = false, defaultValue = "0") int productId,
@@ -114,7 +109,6 @@ public class ReservationApiController {
 	@ApiOperation(value = "예약 등록하기")
 	@ApiResponses({ @ApiResponse(code = 200, message = "Success Create Reservation"),
 			@ApiResponse(code = 500, message = "Reservation POST Exception!!~~!!") })
-
 	@PostMapping(path = "/reservationInfos")
 	public Map<String, Object> postReservation(@RequestBody ReservationRegistration request) {
 		return reservationService.postReservation(request);
@@ -123,7 +117,6 @@ public class ReservationApiController {
 	@ApiOperation(value = "예약 확인하기")
 	@ApiResponses({ @ApiResponse(code = 200, message = "Success Get Reservation"),
 			@ApiResponse(code = 500, message = "Reservation Get Exception!!~~!!") })
-
 	@GetMapping(path = "/reservationInfos")
 	public Map<String, Object> getReservationInfos(Principal principal) {
 		int userId = userDbService.getUser(principal.getName()).getId();
@@ -133,7 +126,6 @@ public class ReservationApiController {
 	@ApiOperation(value = "예약 취소하기")
 	@ApiResponses({ @ApiResponse(code = 200, message = "Success Put Reservation"),
 			@ApiResponse(code = 500, message = "Reservation Get Exception!!~~!!") })
-
 	@PutMapping(path = "/reservationInfos")
 	public Map<String, Object> putReservationInfos(@RequestBody ReservationInfo reservationInfo) {
 		return reservationService.putReservationInfos(reservationInfo.getId());
@@ -142,7 +134,6 @@ public class ReservationApiController {
 	@ApiOperation(value = "댓글 등록하기")
 	@ApiResponses({ @ApiResponse(code = 200, message = "Success Put Comment"),
 			@ApiResponse(code = 500, message = "Reservation Get Exception!!~~!!") })
-
 	@PostMapping(path = "/comments")
 	public Map<String, Object> postComment(@RequestParam("reservationInfoId") int reservationInfoId,
 			@RequestParam("score") int score, @RequestParam("comment") String comment,

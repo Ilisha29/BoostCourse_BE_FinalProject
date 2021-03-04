@@ -73,15 +73,14 @@ public class MvcConfig implements WebMvcConfigurer {
 	 */
 	private ApiInfo apiInfo() {
 		Contact contact = new Contact("김민섭", "https://Ilisha29.github.io", "minsub0616@naver.com");
-		ApiInfo apiInfo = new ApiInfo("Boost_course B/E Final Project Api", "Reservation System Api", "Sample Doc 0.1v", "", contact,
-				"This sentence will be display.", "/reservation");
+		ApiInfo apiInfo = new ApiInfo("Boost_course B/E Final Project Api", "Reservation System Api", "Sample Doc 0.1v",
+				"", contact, "This sentence will be display.", "/reservation");
 		return apiInfo;
 	}
-	
+
 	@Bean
 	public MultipartResolver multipartResolver() {
-		org.springframework.web.multipart.commons.CommonsMultipartResolver multipartResolver = 
-				new org.springframework.web.multipart.commons.CommonsMultipartResolver();
+		org.springframework.web.multipart.commons.CommonsMultipartResolver multipartResolver = new org.springframework.web.multipart.commons.CommonsMultipartResolver();
 		multipartResolver.setMaxUploadSize(10485760);
 		return multipartResolver;
 	}

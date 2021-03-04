@@ -41,15 +41,15 @@ public class UserController {
 		return "users/joinform";
 	}
 
-	 // 사용자가 입력한 name, email, password가 member에 저장된다.
-	 @PostMapping("/join")
-	 public String join(@ModelAttribute User user){
-	 user.setPassword(passwordEncoder.encode(user.getPassword()));
-	 userService.addUser(user);
-	 userService.addUserRole(user.getEmail());
-	 return "redirect:/users/welcome";
-	 }
-	
+	// 사용자가 입력한 name, email, password가 member에 저장된다.
+	@PostMapping("/join")
+	public String join(@ModelAttribute User user) {
+		user.setPassword(passwordEncoder.encode(user.getPassword()));
+		userService.addUser(user);
+		userService.addUserRole(user.getEmail());
+		return "redirect:/users/welcome";
+	}
+
 	@GetMapping("/welcome")
 	public String welcome() {
 		return "users/welcome";

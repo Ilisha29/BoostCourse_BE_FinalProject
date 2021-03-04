@@ -106,7 +106,7 @@ public class ReservationServiceImpl implements ReservationService {
 			List<ReservationUserComment> reservationUserComments, int start) {
 		int count = 0;
 		List<ReservationUserCommentWithImage> appliedStartList = new ArrayList<>();
-		if(start != 0) {
+		if (start != 0) {
 			start--;
 		}
 		for (int i = start; i < reservationUserComments.size(); i++) {
@@ -120,7 +120,8 @@ public class ReservationServiceImpl implements ReservationService {
 			reservationUserCommentWithImage.setScore(reservationUserComment.getScore());
 			reservationUserCommentWithImage.setUserId(reservationUserComment.getUserId());
 			reservationUserCommentWithImage.setComment(reservationUserComment.getComment());
-			reservationUserCommentWithImage.setReservationUserCommentImages(reservationDao.getReservationUserCommentImage(reservationUserComment.getId()));
+			reservationUserCommentWithImage.setReservationUserCommentImages(
+					reservationDao.getReservationUserCommentImage(reservationUserComment.getId()));
 			appliedStartList.add(reservationUserCommentWithImage);
 			count++;
 		}

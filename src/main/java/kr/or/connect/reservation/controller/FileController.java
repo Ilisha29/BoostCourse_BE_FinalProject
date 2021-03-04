@@ -26,10 +26,9 @@ public class FileController {
 		this.fileService = fileService;
 	}
 
-	@ApiOperation(value = "이미지 다운로드")
+	@ApiOperation(value = "Get Image")
 	@ApiResponses({ @ApiResponse(code = 200, message = "Success Get Image"),
 			@ApiResponse(code = 500, message = "Reservation Get Exception!!~~!!") })
-
 	@GetMapping(path = "/files/{fileId}")
 	public void getImage(@PathVariable(name = "fileId") int fileId, HttpServletResponse response) {
 		FileInfo fileInfo = fileService.getFileInfo(fileId);
@@ -40,8 +39,7 @@ public class FileController {
 		response.setHeader("Pragma", "no-cache;");
 		response.setHeader("Expires", "-1;");
 
-		try (
-				FileInputStream fis = new FileInputStream(fileInfo.getSaveFileName()); 
+		try (FileInputStream fis = new FileInputStream(fileInfo.getSaveFileName());
 				OutputStream out = response.getOutputStream();) {
 			int readCount = 0;
 			byte[] buffer = new byte[1024];

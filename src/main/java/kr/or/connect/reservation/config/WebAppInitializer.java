@@ -8,27 +8,28 @@ import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatche
 public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
 
 	@Override
-    protected Class<?>[] getRootConfigClasses() {
-        return new Class<?>[]{ApplicationConfig.class, SecurityConfig.class};
-    }
+	protected Class<?>[] getRootConfigClasses() {
+		return new Class<?>[] { ApplicationConfig.class, SecurityConfig.class };
+	}
 
-    // Spring MVC 설정 파일 클래스를 지정합니다.
-    @Override
-    protected Class<?>[] getServletConfigClasses() {
-        return new Class<?>[]{MvcConfig.class};
-    }
+	// Spring MVC 설정 파일 클래스를 지정합니다.
+	@Override
+	protected Class<?>[] getServletConfigClasses() {
+		return new Class<?>[] { MvcConfig.class };
+	}
 
-    // DispatcherServlet이 동작할 맵핑정보를 설정합니다. "/"를 설정한다는 것은 모든 요청을 DispatcherServlet이 처리한다는 것을 의미합니다.
-    @Override
-    protected String[] getServletMappings() {
-        return new String[]{"/"};
-    }
+	// DispatcherServlet이 동작할 맵핑정보를 설정합니다. "/"를 설정한다는 것은 모든 요청을 DispatcherServlet이
+	// 처리한다는 것을 의미합니다.
+	@Override
+	protected String[] getServletMappings() {
+		return new String[] { "/" };
+	}
 
-    @Override
-    protected Filter[] getServletFilters() {
-        CharacterEncodingFilter encodingFilter = new CharacterEncodingFilter();
-        encodingFilter.setEncoding("UTF-8");
+	@Override
+	protected Filter[] getServletFilters() {
+		CharacterEncodingFilter encodingFilter = new CharacterEncodingFilter();
+		encodingFilter.setEncoding("UTF-8");
 
-        return new Filter[]{encodingFilter};
-    }
+		return new Filter[] { encodingFilter };
+	}
 }

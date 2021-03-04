@@ -32,12 +32,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public void addUser(User user) {
-		userDao.addUser(
-				new User(user.getName(),
-						user.getPassword(),
-						user.getEmail(),
-						user.getPhone()
-						));
+		userDao.addUser(new User(user.getName(), user.getPassword(), user.getEmail(), user.getPhone()));
 	}
 
 	@Override
@@ -45,5 +40,5 @@ public class UserServiceImpl implements UserService {
 		int userId = userDao.getMemberByEmail(email).getId();
 		userRoleDao.addUserRole(userId);
 	}
-	
+
 }

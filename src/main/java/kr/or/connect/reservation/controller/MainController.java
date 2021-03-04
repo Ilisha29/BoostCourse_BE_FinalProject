@@ -10,6 +10,7 @@ public class MainController {
 	public String main() {
 		return "index";
 	}
+
 	@RequestMapping("/securepage")
 	@ResponseBody
 	public String securityPage() {

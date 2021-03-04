@@ -16,18 +16,34 @@ import kr.or.connect.reservation.dto.ReservationUserCommentWithImage;
 
 public interface ReservationService {
 	public List<Category> getCategories();
+
 	public List<ProductWithDisplayInfoAndCategory> getProducts(int categoryId, int start);
+
 	public List<PromotionWithCategoryAndProductAndProductImage> getPromotions();
+
 	public ProductWithDisplayInfoAndCategory getProduct(int display_id);
+
 	public List<ProductImageWithFileInfo> getProductImages(int display_id);
+
 	public List<DisplayInfoImageWithFileInfo> getDisplayInfoImages(int display_id);
+
 	public int getProductAvgScore(int display_id);
+
 	public List<ProductPrice> getProductPrices(int display_id);
+
 	public Map<String, Object> getComments(int categoryId, int start);
-	public List<ReservationUserCommentWithImage> getCommentsApplyStart(List<ReservationUserComment> reservationUserComments, int start);
+
+	public List<ReservationUserCommentWithImage> getCommentsApplyStart(
+			List<ReservationUserComment> reservationUserComments, int start);
+
 	public Map<String, Object> postReservation(ReservationRegistration reservationRegistration);
+
 	public Map<String, Object> getReservationInfos(int userId);
+
 	public Map<String, Object> putReservationInfos(int reservationInfoId);
+
 	public ReservationInfo getReservationInfoByUserIdWithReservationInfoId(int userId, int reservationInfoId);
-	public boolean postComment(ReservationInfo reservationInfo, int score, String comment, int fileId, String create_date);
+
+	public boolean postComment(ReservationInfo reservationInfo, int score, String comment, int fileId,
+			String create_date);
 }
